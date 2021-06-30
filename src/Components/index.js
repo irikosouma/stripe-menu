@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useRef} from 'react'
 //images
 import backGround from '../assets/images/background/background.svg'
 import Logo from '../assets/images/Logo'
@@ -7,80 +7,109 @@ import IconMenu from '../assets/images/iconMenu'
 //styles
 import {WrapMain} from './index.styles'
 export default function Main() {
-    const getXYofDiv = () => {
-        let elem = document.querySelector('section');
-        let rect = elem.getBoundingClientRect();
-        for (var key in rect) {
-        if(typeof rect[key] !== 'function') {
-            let para = document.createElement('p');
-            para.textContent  = `${ key } : ${ rect[key] }`;
-            document.body.appendChild(para);
+    const [xActive, setXActive] = useState(0)
+    const [isNext, setIsNext] = useState(false)
+    const btnElementRef = useRef(null)
+    const [XOffset, setXOffset] = useState(`${780}px`);
+    const [isHover, setIsHover] = useState(false)
+
+    const getXYofDiv = (indexItem) => {
+            setIsHover(true)
+            
+        setXActive(indexItem)
+        if (xActive !== indexItem) {
+            setIsNext(true)
         }
-    }
-    // console.log('element rect', rect)
+        if( indexItem === 1) {
+            setXOffset(`${960}px`)
+        }
+        else
+        if( indexItem === 2) {
+            setXOffset(`${1140}px`)
+        }
+        else 
+        if (indexItem === 0) {
+            setXOffset(`${780}px`)
+        }
+
     }
     return (
-        <WrapMain backGround={backGround}>
+        <WrapMain backGround={backGround} xOffset={XOffset} isNext={isNext} >
             <div className="wrap-content">
                 <div className="header-menu">
                     <Logo />
-                    <div className="stripe-menu"   >
-                        <button className="btn-menu" onClick={getXYofDiv}>Products
-                            <span className="hover-content">
+                    <div className="stripe-menu">
+                        <button className="btn-menu" onMouseEnter={() => getXYofDiv(0)} onMouseLeave={() => setIsHover(false)}>Products
+                        </button>
+                        <button className="btn-menu" onMouseEnter={() => getXYofDiv(1)} onMouseLeave={() => setIsHover(false)}>Developers
+                        </button>
+                        <button className="btn-menu" onMouseEnter={() => getXYofDiv(2)} onMouseLeave={() => setIsHover(false)}>Company
+                        </button>
+                        {isHover === true ? 
+                            <span ref={btnElementRef} className="hover-content">
+                            {xActive === 0 ?
+                                <>
                                 Products
-                                <div className="wrap-icon">
-                                    <div>
-                                        <IconMenu />
-                                        Payment
+                                    <div className="wrap-icon">
+                                        <div className="wrap-content-icon">
+                                            <IconMenu className="icon-menu"/>
+                                            Payment
+                                        </div>
+                                        <div className="wrap-content-icon">
+                                            <IconMenu className="icon-menu"/>
+                                            Terminal
+                                        </div>
+                                        <div className="wrap-content-icon">
+                                            <IconMenu className="icon-menu"/>
+                                            Connect
+                                        </div>
                                     </div>
-                                    <div>
-                                        <IconMenu />
-                                        Terminal
+                                </>
+                                : 
+                                <>
+                                {xActive === 1 ?
+                                    <>
+                                    Developers
+                                    <div className="wrap-icon">
+                                        <div className="wrap-content-icon">
+                                            <IconMenu className="icon-menu"/>
+                                            Plugin
+                                        </div>
+                                        <div className="wrap-content-icon">
+                                            <IconMenu className="icon-menu"/>
+                                            Library
+                                        </div>
+                                        <div className="wrap-content-icon">
+                                            <IconMenu className="icon-menu"/>
+                                            Help
+                                        </div>
+                                        <div className="wrap-content-icon">
+                                            <IconMenu className="icon-menu"/>
+                                            Billing
+                                        </div>
                                     </div>
-                                    <div>
-                                        <IconMenu />
-                                        Connect
+                                    </>
+                                    : 
+                                    <>
+                                    Company
+                                    <div className="wrap-icon">
+                                        <div className="wrap-content-icon">
+                                            <IconMenu className="icon-menu"/>
+                                            About
+                                        </div>
+                                        <div className="wrap-content-icon">
+                                            <IconMenu className="icon-menu"/>
+                                            Customer
+                                        </div>
                                     </div>
-                                </div>
-                            </span>
-                        </button>
-                        <button className="btn-menu" onClick={getXYofDiv}>Developers
-                            <span className="hover-content">
-                                Developers
-                                <div className="wrap-icon">
-                                    <div>
-                                        <IconMenu />
-                                        Plugin
-                                    </div>
-                                    <div>
-                                        <IconMenu />
-                                        Library
-                                    </div>
-                                    <div>
-                                        <IconMenu />
-                                        Help
-                                    </div>
-                                    <div>
-                                        <IconMenu />
-                                        Billing
-                                    </div>
-                                </div>
-                            </span>
-                        </button>
-                        <button className="btn-menu" onClick={getXYofDiv}>Company
-                            <span className="hover-content">
-                                Company
-                                <div className="wrap-icon">
-                                    <div>
-                                        <IconMenu />
-                                        About
-                                    </div>
-                                    <div>
-                                        <IconMenu />
-                                        Customer
-                                    </div>
-                                </div>
-                            </span></button>
+                                    </>
+                            }
+                                </>
+                            }
+                        </span>
+                        :
+                        ""
+                        }
                     </div>
                     <button className="btn-style">
                         Sign in 
@@ -102,7 +131,6 @@ export default function Main() {
                     <Phone className="image-style" />
                 </div>
             </div>
-            {/* <section className="divv" onClick={getXYofDiv}></section> */}
             
         </WrapMain>
     )

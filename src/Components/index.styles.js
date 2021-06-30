@@ -6,19 +6,13 @@ const WrapMain = styled.div`
     background-repeat: no-repeat;
     object-fit: cover;
     background-size: contain;
-    .divv {
-        width: 400px;
-        height: 200px;
-        padding: 20px;
-        margin: 50px auto;
-        background: purple;
-    }
+
     .wrap-content {
         display: flex;
         align-items: center;
         justify-content: center;
         flex-direction: column;
-        
+        position: relative;
         .header-menu {
             margin-top: 18px;
             color: #fff;
@@ -30,28 +24,47 @@ const WrapMain = styled.div`
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                position: relative;
                 .hover-content {
                     position: absolute;
-                    top: 40px;
-                    left: -230px;
+                    top: 80px;
+                    left: ${(props => props.xOffset)};
+                    transition: left 1s;
                     width: 560px;
                     height: 80px;
                     color: #102a42;
                     background-color: #fff;
                     box-shadow: 0 5px 15px rgb(0 0 0 / 20%);
-                    visibility: hidden;
+                    
                     display: flex;
                     flex-direction: column;
                     align-items: flex-start;
                     justify-content: space-between;
                     padding: 20px 30px;
+                    & :after {
+                        content: "";
+                        position: absolute;
+                        bottom: 100%;
+                        left: 50%;
+                        margin-left: -5px;
+                        border-width: 5px;
+                        border-style: solid;
+                        border-color: transparent transparent white transparent;
+                    }
+
                     .wrap-icon {
                         width: 100%;
                         display: flex;
                         flex-direction: row;
                         align-items: center;
                         justify-content: space-between;
+                        .wrap-content-icon {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            .icon-menu {
+                                padding-right: 12px;
+                            }
+                        }
                     }
                 }
 
@@ -64,9 +77,6 @@ const WrapMain = styled.div`
                     appearance: none;
                     border: none;
                     font-size: 18px;
-                    :hover .hover-content {
-                        visibility: visible;
-                    }
                 }
             }
         }
@@ -79,6 +89,7 @@ const WrapMain = styled.div`
             border-radius: 4px;
             border: 2px solid #222222;
             font-size: 14px;
+            cursor: pointer;
             :hover {
                 background-color: #617D99;
             }
